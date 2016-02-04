@@ -1,8 +1,9 @@
 #include "my_functions.h"
 
-void positive_or_not(int num_to_check)
+void positive_or_not(int n)
 {
-	if (num_to_check > 0) { print_char('P'); }
-	else if (num_to_check < 0) { print_char('N'); }
+	/* informs if a number is positive or not */
+	if (n > 0) { print_char('P'); }
+	else if (n < 0) { print_char('N'); }
 	else { print_char('Z'); }
 }

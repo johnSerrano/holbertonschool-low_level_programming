@@ -2,5 +2,6 @@
 
 void print_z()
 {
+	/* prints z */
 	print_string("z\n");
 }
