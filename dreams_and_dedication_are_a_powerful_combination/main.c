@@ -17,5 +17,8 @@ int main()
 	print_char('\n');
 	print_combination_3();
 	print_char('\n');
+	print_char('\n');
+	print_combination_4();
+	print_char('\n');
 	return 0;
 }
