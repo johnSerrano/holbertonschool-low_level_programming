@@ -2,5 +2,5 @@
 
 void printf_number(int n)
 {
-	printf("%d\n", n);
+	printf("%d", n);
 }
