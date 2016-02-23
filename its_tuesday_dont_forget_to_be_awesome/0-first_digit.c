@@ -1,7 +1,6 @@
-int print_char(char);
-void  do_work(int);
+char  do_work(int);
 
-void print_number(int n)
+char first_digit(int n)
 {
 	/*
 	 * This function prints an integer to the screen. 
@@ -11,14 +10,14 @@ void print_number(int n)
 		n = 0-n;
 	}
 	if (n == 0) {
-		print_char('0');
+		return('0');
 	}
 	else {
-		do_work(n);
+		return(do_work(n));
 	}
 }
 
-void do_work(int n)
+char do_work(int n)
 {
 	int divisor = 1;
 	int a = n;
@@ -30,5 +29,5 @@ void do_work(int n)
 	int to_print = n / divisor;
 	n += to_print * divisor;
 	divisor /= 10;
-	print_char('0' + (-1*to_print));	
+	return('0' + (-1*to_print));	
 }
