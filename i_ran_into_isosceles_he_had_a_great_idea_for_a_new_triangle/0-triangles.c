@@ -1,3 +1,5 @@
+#include <unistd.h>
+
 int print_char(char);
 
 void triangles_in_the_term(int h , int n)
@@ -14,4 +16,9 @@ void triangles_in_the_term(int h , int n)
 		print_char('\n');
 		}
 	}
+}
+
+int print_char(char c)
+{
+  return (write(1, &c, 1));
 }
