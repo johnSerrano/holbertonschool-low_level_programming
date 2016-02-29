@@ -1,5 +1,6 @@
 #include <limits.h>
 
+int print_char(char);
 char first_digit(int);
 
 int main()

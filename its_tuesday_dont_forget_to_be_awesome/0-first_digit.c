@@ -21,12 +21,13 @@ char do_work(int n)
 {
 	int divisor = 1;
 	int a = n;
+	int to_print;
 	while (a < -9) {
 		a /= 10;
 		divisor *= 10;
 	}
 
-	int to_print = n / divisor;
+	to_print = n / divisor;
 	n += to_print * divisor;
 	divisor /= 10;
 	return('0' + (-1*to_print));	
