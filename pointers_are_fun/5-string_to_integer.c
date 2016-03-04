@@ -1,4 +1,3 @@
-#include <stdio.h>
 int get_value(int, char *, char *);
 
 int string_to_integer(char *s) {
