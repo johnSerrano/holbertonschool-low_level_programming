@@ -47,6 +47,14 @@ int check_string_args(int argc, char **argv, char *to_check)
       if (argv[i][1] == '-') {
         if (strcmp(argptr, to_check) == 0) return 1;
       }
+      else {
+        if (strlen(to_check) == 3) {
+          while (*argptr != 0) {
+            if(*to_check == *argptr) return 1;
+            argptr++;
+          }
+        }
+      }
     }
   }
   return 0;
@@ -61,11 +69,17 @@ int check_single_args(int argc, char **argv, char *to_check)
     if (argptr == to_check) break;
     if (strcmp(argv[i], "--") == 0) break;
     if (argv[i][0] == '-') {
-      if (argv[i][1] != '-')
+      if (argv[i][1] != '-') {
         while (*argptr != 0) {
           if (argptr == to_check) return 0;
           if(*to_check == *argptr) return 1;
           argptr++;
+        }
+      }
+      else {
+        if (strlen(argv[i]) == 3) {
+          if (argv[i][2] == *to_check) return 1;
+        }
       }
     }
   }
