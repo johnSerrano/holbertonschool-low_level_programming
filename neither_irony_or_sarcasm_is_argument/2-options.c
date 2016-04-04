@@ -38,7 +38,6 @@ int main(int argc, char **argv)
 
 int check_string_args(int argc, char **argv, char *to_check)
 {
-  int total = 0;
   int i;
   char *argptr;
   for (i=1; i<argc; i++) {
