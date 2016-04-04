@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 int print_as_single_args(char *, int, char **, int);
@@ -48,9 +47,6 @@ int check_string_args(int argc, char **argv, char *to_check)
       if (argv[i][1] == '-') {
         if (strcmp(argptr, to_check) == 0) return 1;
       }
-      else {
-        /*pass*/
-      }
     }
   }
   return 0;
@@ -86,7 +82,6 @@ int print_as_single_args(char *s, int first, char **argv, int argc) {
       printf(", ");
     else
       first = 0;
-
     printf("%c", *s);
     s++;
   }
