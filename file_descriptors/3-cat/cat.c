@@ -19,6 +19,7 @@ int main(int argc, char **argv) {
   }
   return 0;
 }
+
 /* print whatever comes into stdin */
 void read_stdin() {
   char ch;
