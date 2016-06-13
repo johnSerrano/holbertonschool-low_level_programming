@@ -1,6 +1,6 @@
 int get_value(int, char *, char *);
 
-int string_to_integer(char *s) {
+int string_to_int(char *s) {
 	int positive = 1;
 	char *start = s;
 	char *end = s;
@@ -30,7 +30,7 @@ int get_value(int positive, char *start, char *end) {
 	int i;
 	long current_int;
 	long total =0;
-	
+
 	for (current_char = start; current_char <= end; current_char++) {
 		current_int = *current_char - '0';
 		for (i = 0; i < end - current_char; i++) {
