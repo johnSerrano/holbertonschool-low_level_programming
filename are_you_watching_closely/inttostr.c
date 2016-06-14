@@ -2,39 +2,43 @@
 #include <stdio.h>
 #include <string.h>
 
-int str_len(char *str);
-char *string_copy(char *dest, char *src);
-char *do_work(long long, char*, int);
+int str_len(const char *str);
+char *string_copy(char *dest, const char *src);
+char *do_work(unsigned int, char*, unsigned int);
 char *add_digit(char digit, char *str);
-char *int_to_string(long long n, int base);
+char *int_to_string(int n, unsigned int base);
 char *str_cat(char *dest, char *src);
-
-/*
-void main() {
-	char *result = int_to_string(30, 16);
-	printf("%s\n", result);
-}
-*/
 
 /*
  * Function to change an int to a string
  * CHECKED: functions, length, width, brackets
  */
-char *int_to_string(long long n, int base)
+char *int_to_string(int n, unsigned int base)
 {
 	char *str = malloc(sizeof(char)*1);
 	*str = 0;
 
 	if (n < 0) {
 		str = add_digit('-', str);
-	} else {
-		n = 0-n;
+		n *= -1;
 	}
 	if (n == 0) {
 		str = add_digit('0', str);
 	}
 	else {
-		str = do_work(n, str, base);
+		str = do_work((unsigned int) n, str, base);
+	}
+	return str;
+}
+
+char *unsigned_to_string(unsigned int u, unsigned int base) {
+	char *str = malloc(sizeof(char)*1);
+	*str = 0;
+	if (u == 0) {
+		str = add_digit('0', str);
+	}
+	else {
+		str = do_work(u, str, base);
 	}
 	return str;
 }
@@ -56,22 +60,22 @@ char *add_digit(char digit, char *str)
 }
 
 /*
- * Function to do??? TODO
+ * Function
  */
-char *do_work(long long n, char *str, int base)
+char *do_work(unsigned int n, char *str, unsigned int base)
 {
-	long long divisor = 1;
-	long long a = n;
-	while (a < -1 * (base-1)) {
+	unsigned int divisor = 1;
+	unsigned int a = n;
+	unsigned int to_print;
+
+	while (a > base-1) {
 		a /= base;
 		divisor *= base;
 	}
-
-	while (n < 0) {
-		long long to_print = n / divisor;
+	while (n > 0) {
+		to_print = n / divisor;
 		n -= to_print * divisor;
 		divisor /= base;
-		to_print = 0-to_print;
 		if (to_print > 9) {
 			to_print -= 10;
 			str = add_digit('a' + to_print, str);
@@ -79,13 +83,17 @@ char *do_work(long long n, char *str, int base)
 			str = add_digit('0' + to_print, str);
 		}
 	}
+	while (divisor >= 1) {
+		divisor /= base;
+		str = add_digit('0', str);
+	}
 	return str;
 }
 
 /*
  * Function get the length of a char *
  */
-int str_len(char *str)
+int str_len(const char *str)
 {
 	int i=0;
 	for (i=0; str[i]!=0; i++) {}

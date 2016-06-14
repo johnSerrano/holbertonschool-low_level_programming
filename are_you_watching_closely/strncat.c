@@ -34,7 +34,7 @@ char *str_cat(char *dest, char *src)
 /*
  * Function that copies a str into another.
  */
- char *string_copy(char *dest, char *src)
+ char *string_copy(char *dest, const char *src)
 {
 	char *ret = dest;
 	while (*src != 0) {
