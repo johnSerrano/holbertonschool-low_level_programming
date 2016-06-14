@@ -1,6 +1,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
 
 int printf(const char *format, ...);
 int str_len(const char *str);
@@ -41,7 +42,7 @@ int printf(const char *format, ...) {
 	}
 	count = str_len(mut);
 	write(1, mut, count);
-	/* TODO return number of bytes printed (strlen) */
+	free(mut);
 	return count;
 }
 
@@ -68,6 +69,7 @@ char *replace(char *base, char *directive, va_list ap) {
 	for (i=0 ; i<10 ; i++) {
 		if (relations[i].directive == *(directive+1)) {
 			str = relations[i].replace(base, directive, ap);
+			break;
 		}
 	}
 	return str;
@@ -91,6 +93,6 @@ char *replace_string(char *base, char *directive, char *toreplace) {
 	str_ncat(str, base, len1);
 	str_cat(str, toreplace);
 	str_cat(str, (directive + 2));
-	/* TODO free base */
+	free(base);
 	return str;
 }
