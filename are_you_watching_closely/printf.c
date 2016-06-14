@@ -43,6 +43,7 @@ int printf(const char *format, ...) {
 	count = str_len(mut);
 	write(1, mut, count);
 	free(mut);
+	va_end(ap);
 	return count;
 }
 
@@ -65,7 +66,7 @@ char *replace(char *base, char *directive, va_list ap) {
 		{'%', replace_percent}
 	};
 	int i;
-	char *str;
+	char *str = base;
 	for (i=0 ; i<10 ; i++) {
 		if (relations[i].directive == *(directive+1)) {
 			str = relations[i].replace(base, directive, ap);

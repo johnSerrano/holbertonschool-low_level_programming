@@ -17,5 +17,8 @@ int main(void)
   printf("ADDRESS{%p}\n", addr);
   printf("HEXADECIMAL{%X}\n", 94111);
   printf("UNKNOWN SPECIFIER{%Q}\n", len); 
+  len++;
+  ui++;
+  *(unsigned int*)addr+=1;
   return (0);
 }

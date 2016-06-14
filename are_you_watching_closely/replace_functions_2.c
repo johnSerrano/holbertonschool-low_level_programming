@@ -15,9 +15,12 @@ char *replace_s(char *base, char* directive, va_list ap) {
 char *replace_c(char *base, char *directive, va_list ap) {
 	char a = (char)va_arg(ap, int);
 	char * str = malloc(sizeof(char) * 2);
+	char *ret;
 	*str = a;
 	*(str+1) = 0;
-	return replace_string(base, directive, str);
+	ret = replace_string(base, directive, str);
+	free(str);
+	return ret;
 }
 
 /* ASSUMES 64 BIT SYSTEM */
@@ -39,7 +42,11 @@ char *replace_p(char *base, char *directive, va_list ap) {
 	*(str+2) = 0;
 	str_cat(str, str2);
 	str_cat(str, str1);
-	return replace_string(base, directive, str);
+	free(str1);
+	free(str2);
+	str1 = replace_string(base, directive, str);
+	free(str);
+	return str1;
 }
 
 /* function for escaped percent substitution */
@@ -47,7 +54,10 @@ char *replace_percent(char *base, char *directive,
 	__attribute__((unused)) va_list ap) {
 	char a = '%';
 	char * str = malloc(sizeof(char) * 2);
+	char *ret;
 	*str = a;
 	*(str+1) = 0;
-	return replace_string(base, directive, str);
+	ret = replace_string(base, directive, str);
+	free(str);
+	return ret;
 }
