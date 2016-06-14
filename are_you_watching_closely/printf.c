@@ -1,11 +1,8 @@
 #include <stdarg.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 
-/* note to self: skip %% and others?
-   can't restart after substitution, keep count? */
-int printa(const char *format, ...);
+int printf(const char *format, ...);
 int str_len(const char *str);
 char *int_to_string(int n, unsigned int base);
 char *unsigned_to_string(unsigned int n, unsigned int base);
@@ -24,14 +21,7 @@ char *replace_c(char *base, char *directive, va_list ap);
 char *replace_p(char *base, char *directive, va_list ap);
 char *replace_percent(char *base, char *directive, va_list ap);
 
-int main(void) {
-	char a;
-	printa("s: %s\nd: %d\nu: %u\no: %o\nx: %x\nX: %X\nc: %c\np: %p\n%%: %%\n", "st", 100, 98u, 65, 60, 60, 'a', &a);
-	printf("s: %s\nd: %d\nu: %u\no: %o\nx: %x\nX: %X\nc: %c\np: %p\n%%: %%\n", "st", 100, 98u, 65, 60, 60, 'a', &a);
-	return 0;
-}
-
-int printa(const char *format, ...) {
+int printf(const char *format, ...) {
 	/* LOOP OVER FORMAT */
 	va_list ap;
 	int count = 0;
@@ -83,11 +73,6 @@ char *replace(char *base, char *directive, va_list ap) {
 	return str;
 }
 
-char *replace_s(char *base, char* directive, va_list ap) {
-	char *toreplace = va_arg(ap, char *);
-	return replace_string(base, directive, toreplace);
-}
-
 /* replace a string */
 char *replace_string(char *base, char *directive, char *toreplace) {
 	char *str = directive + 1;
@@ -108,86 +93,4 @@ char *replace_string(char *base, char *directive, char *toreplace) {
 	str_cat(str, (directive + 2));
 	/* TODO free base */
 	return str;
-}
-
-/* function for d and i (int replacement) */
-char *replace_d(char *base, char *directive, va_list ap) {
-	int val = va_arg(ap, int);
-	char *str = int_to_string(val, 10);
-	/* int to str, then replace_string() */
-	return replace_string(base, directive, str);
-}
-
-/* function for u (unsigned int to decimal) */
-char *replace_u(char *base, char *directive, va_list ap) {
-	unsigned int val = va_arg(ap, unsigned int);
-	char *str = unsigned_to_string(val, 10);
-	/* unsigned int to str, then replace_string() */
-	return replace_string(base, directive, str);
-}
-
-/* function for o (unsigned int to octal) */
-char *replace_o(char *base, char *directive, va_list ap) {
-	unsigned int val = va_arg(ap, unsigned int);
-	char *str = unsigned_to_string(val, 8);
-	return replace_string(base, directive, str);
-}
-
-/* function for lower case hex substitution (unsigned int) */
-char *replace_x(char *base, char *directive, va_list ap) {
-	unsigned int val = va_arg(ap, unsigned int);
-	char *str = unsigned_to_string(val, 16);
-	return replace_string(base, directive, str);
-}
-
-/* function for upper case hex substitution (unsigned int) */
-char *replace_X(char *base, char *directive, va_list ap) {
-	unsigned int val = va_arg(ap, unsigned int);
-	char *str = unsigned_to_string(val, 16);
-	char *iter;
-	for (iter = str; *iter != 0; iter++) {
-		if (*iter >= 'a' && *iter <= 'z') *iter += ('A' - 'a');
-	}
-	return replace_string(base, directive, str);
-}
-
-/* function for character substitution */
-char *replace_c(char *base, char *directive, va_list ap) {
-	char a = (char)va_arg(ap, int);
-	char * str = malloc(sizeof(char) * 2);
-	*str = a;
-	*(str+1) = 0;
-	return replace_string(base, directive, str);
-}
-
-/* ASSUMES 64 BIT SYSTEM */
-/* this is more complicated than necessary because I didn't want to write
- * a new int to str for longs
- */
-char *replace_p(char *base, char *directive, va_list ap) {
-	void *ptr = va_arg(ap, void *);
-	unsigned int ptr1 =
-		(unsigned int)((unsigned long)ptr & 0xfffffffful);
-	/* division not bitshift because I'm incompetent today*/
-	unsigned int ptr2 = (unsigned int)
-		(((unsigned long)ptr & 0xffffffff00000000ul)/0x100000000);
-	char *str1 = unsigned_to_string(ptr1, 16);
-	char *str2 = unsigned_to_string(ptr2, 16);
-	char *str = malloc(sizeof(char) * 19);
-	*str = '0';
-	*(str+1) = 'x';
-	*(str+2) = 0;
-	str_cat(str, str2);
-	str_cat(str, str1);
-	return replace_string(base, directive, str);
-}
-
-/* function for escaped percent substitution */
-char *replace_percent(char *base, char *directive,
-	__attribute__((unused)) va_list ap) {
-	char a = '%';
-	char * str = malloc(sizeof(char) * 2);
-	*str = a;
-	*(str+1) = 0;
-	return replace_string(base, directive, str);
 }
