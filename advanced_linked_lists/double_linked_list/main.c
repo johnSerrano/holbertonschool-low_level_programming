@@ -3,10 +3,22 @@
 #include "list.h"
 
 int add_end_dl_list(List **, char *);
-int add_begin_dl_list(List **, char *);
 void print_dl_list(List *);
+List *array_to_dl_list(char **);
+void free_dl_list(List *list);
 
-int main(void)
+int main(__attribute__((unused))int ac, char **av)
+{
+  List *list;
+  list = array_to_dl_list(av);
+  if (list == NULL)
+    return (1);
+  print_dl_list(list);
+  free_dl_list(list);
+  return (0);
+}
+/*
+int notmain(void)
 {
   List *list;
 
@@ -30,3 +42,4 @@ int main(void)
   print_dl_list(list);
   return (0);
 }
+*/
