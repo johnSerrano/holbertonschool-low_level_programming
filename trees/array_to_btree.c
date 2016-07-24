@@ -2,13 +2,25 @@
 #include "stdlib.h"
 #include "string.h"
 
-void construct_btree(BTree **tree);
+void construct_btree_array(BTree **tree);
 
-int btree_insert(BTree **tree, char *data)
+BTree *array_to_btree(char **array)
+{
+    BTree *tree = NULL;
+    int i;
+    if (array == NULL) return NULL;
+    for (i=0 ; array[i]!=NULL ; i++) {
+      if (btree_insert_array(&tree, array[i]) != 0)
+        return NULL;
+    }
+    return tree;
+}
+
+int btree_insert_array(BTree **tree, char *data)
 {
   BTree *ptr;
   if (*tree == NULL) {
-    construct_btree(&ptr);
+    construct_btree_array(&ptr);
     ptr->str = strdup(data);
     *tree = ptr;
   } else {
@@ -17,7 +29,7 @@ int btree_insert(BTree **tree, char *data)
   return 0;
 }
 
-int insert_recurse(BTree *tree, char *data)
+int insert_recurse_array(BTree *tree, char *data)
 {
   int diff;
   BTree *ptr;
@@ -26,14 +38,14 @@ int insert_recurse(BTree *tree, char *data)
   if (diff > 0) {
     if (tree->left != NULL)
       return insert_recurse(tree->left, data);
-    construct_btree(&ptr);
+    construct_btree_array(&ptr);
     if (ptr == NULL) return 1;
     ptr->str = strdup(data);
     tree->left = ptr;
   } else {
     if (tree->right != NULL)
       return insert_recurse(tree->right, data);
-    construct_btree(&ptr);
+    construct_btree_array(&ptr);
     if (ptr == NULL) return 1;
     ptr->str = strdup(data);
     tree->right = ptr;
@@ -41,7 +53,7 @@ int insert_recurse(BTree *tree, char *data)
   return 0;
 }
 
-void construct_btree(BTree **tree)
+void construct_btree_array(BTree **tree)
 {
   *tree = malloc(sizeof(BTree));
   (*tree)->left = NULL;
