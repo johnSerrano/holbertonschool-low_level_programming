@@ -5,7 +5,7 @@ void swap(int *a, int *b);
 void quick_sort_recurse(int *array, int begin, int size);
 
 void quick_sort(int *array, int size) {
-  return quick_sort_recurse(array, 0, size);
+  quick_sort_recurse(array, 0, size);
 }
 
 void quick_sort_recurse(int *array, int begin, int size) {
