@@ -15,47 +15,13 @@ int main() {
   ntree_insert(&tree, NULL, "/");
 
   ntree_insert(&tree, string_split("/", ' '), "home");
-  // ntree_insert(&tree, string_split("/", ' '), "opt");
+  ntree_insert(&tree, string_split("/", ' '), "opt");
   ntree_insert(&tree, string_split("/ home", ' '), "john");
-  // ntree_insert(&tree, string_split("/ home", ' '), "sys");
-  // ntree_insert(&tree, string_split("/ home john", ' '), "other");
-  // ntree_insert(&tree, string_split("/ opt", ' '), "bin");
-  print_ntree(tree);
+  ntree_insert(&tree, string_split("/ home", ' '), "sys");
+  ntree_insert(&tree, string_split("/ home john", ' '), "other");
+  ntree_insert(&tree, string_split("/ opt", ' '), "bin");
+  ntree_print(tree);
   return 0;
-}
-
-void print_ntree(NTree *tree)
-{
-  if (tree == NULL || tree->str == NULL) {
-    printf("NULL\n");
-    return;
-  }
-  print_tree_recurse(tree, 0);
-}
-
-void print_tree_recurse(NTree *tree, int tabs)
-{
-  int i = 0;
-  List *ptr;
-  if (tree == NULL) {
-    return;
-  }
-  for (i=0 ; i<tabs ; i++) {
-    printf("\t");
-  }
-  if (tree->str == NULL){
-    printf("NULL\n");
-  } else {
-    printf("%s\n", tree->str);
-  }
-  for (ptr = tree->children; ptr != NULL; ptr++) {
-    // printf("debugging pointer check: %p\n", ptr);
-    // printf("debugging node check: %p\n", ptr->node);
-    if (ptr->node != NULL)
-      // printf("debugging str check: %s\n", ptr->node->str);
-
-    print_tree_recurse(ptr->node, tabs+1);
-  }
 }
 
 /*
@@ -70,16 +36,16 @@ char **string_split(char *ptr, char seperator)
 	int word_count = 0;
 	count = get_words(ptr, seperator);
 	if (count == 0) {
-		ret = malloc(sizeof(char *)*1);
+		ret = (char **) malloc(sizeof(char *)*1);
 		ret[0] = NULL;
 		return ret;
 	}
-	ret = malloc(sizeof(char *) * (count+2));
+	ret = (char **) malloc(sizeof(char *) * (count+2));
 	while (*ptr != 0) {
 		while (*ptr == seperator)
 			ptr++;
 		count = get_word_len(ptr, seperator);
-		ret[word_count] = malloc(sizeof(char) * (count + 1));
+		ret[word_count] = (char *) malloc(sizeof(char) * (count + 1));
 		ret_ptr = ret[word_count];
 		while (*ptr != seperator && *ptr != 0) {
 			*ret_ptr = *ptr;
