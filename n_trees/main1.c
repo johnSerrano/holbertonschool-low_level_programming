@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "tree.h"
-// void ntree_free(NTree *);
-// void free_str_array(char **);
+void ntree_free(NTree *);
+void free_str_array(char **);
 
 int path_exists(NTree *, char **);
 int ntree_insert(NTree **, char **, char *);
@@ -18,28 +18,28 @@ int main(void)
     tree = NULL;
     ntree_insert(&tree, NULL, "/");
     ntree_insert(&tree, (array = string_split("/", ',')), "home");
-    // free_str_array(array);
+    free_str_array(array);
     ntree_insert(&tree, (array = string_split("/ home", ' ')), "ubuntu");
-    // free_str_array(array);
+    free_str_array(array);
     ntree_insert(&tree, (array = string_split("/ home ubuntu", ' ')), "Documents");
-    // free_str_array(array);
+    free_str_array(array);
     ntree_insert(&tree, (array = string_split("/ home ubuntu", ' ')), "Download");
-    // free_str_array(array);
+    free_str_array(array);
     ntree_insert(&tree, (array = string_split("/ home ubuntu", ' ')), "Public");
-    // free_str_array(array);
+    free_str_array(array);
 
     printf("Path=[%s], present:%d\n", "/ home", path_exists(tree, (array = string_split("/ home", ' '))));
-    // free_str_array(array);
+    free_str_array(array);
     printf("Path=[%s], present:%d\n", "/ home ubuntu", path_exists(tree, (array = string_split("/ home ubuntu", ' '))));
-    // free_str_array(array);
+    free_str_array(array);
     printf("Path=[%s], present:%d\n", "/ home ubuntu Download", path_exists(tree, (array = string_split("/ home ubuntu Download", ' '))));
-    // free_str_array(array);
+    free_str_array(array);
     printf("Path=[%s], present:%d\n", "/ home student", path_exists(tree, (array = string_split("/ home student", ' '))));
-    // free_str_array(array);
+    free_str_array(array);
     printf("Path=[%s], present:%d\n", "/ home ubuntu Public file", path_exists(tree, (array = string_split("/ home ubuntu Public file", ' '))));
-    // free_str_array(array);
+    free_str_array(array);
 
-    // ntree_free(tree);
+    ntree_free(tree);
     return (0);
 }
 
@@ -109,4 +109,14 @@ int get_word_len(char *fast, char seperator)
 		fast++;
 	}
 	return count;
+}
+
+void free_str_array(char **command)
+{
+	int counter = 0;
+	while (command[counter] != 0) {
+		free(command[counter]);
+		counter++;
+	}
+	free(command);
 }
