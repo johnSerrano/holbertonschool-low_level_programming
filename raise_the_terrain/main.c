@@ -1,17 +1,25 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
+/**
+ * The context of the program. Anthing that would need to be passed as a
+ * parameter should be included here. This is the sole parameter of any function
+ * created here.
+ */
 typedef struct {
   int quit;
   SDL_Window *window;
   SDL_Surface *screen_surface;
 } Context;
 
+
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+
 void handleEvents(Context *);
 void draw(Context *);
+
 
 /**
  * Currently, Opens and closes a window.
@@ -46,12 +54,22 @@ int main(void)
   return 0;
 }
 
+
+/**
+ * All the drawing logic should happen here.
+ * Takes the program's context struct as a parameter.
+ */
 void draw(Context *context)
 {
   SDL_FillRect(context->screen_surface, NULL,
                SDL_MapRGB(context->screen_surface->format, 0xFF, 0xFF, 0xFF));
 }
 
+/**
+ * Any input events are handled here. Any information that needs to be returned
+ * should be included in the context struct and modified there.
+ * Takes the program's context struct as a parameter.
+ */
 void handleEvents(Context *context)
 {
   SDL_Event e;
